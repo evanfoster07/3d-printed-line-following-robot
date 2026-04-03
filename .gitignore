@@ -1,0 +1,26 @@
+
+# VS Code / Editors
+.vscode/
+.idea/
+*.code-workspace
+
+# Arduino build files
+*.hex
+*.elf
+
+# Arduino IDE
+*.bin
+*.map
+
+# Logs
+*.log
+
+# Temporary / backup files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Fusion 360 / CAD temp files
+*.f3d.bak
+*.f3z.bak
