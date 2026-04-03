@@ -1,4 +1,8 @@
 
+# OS files
+.DS_Store
+Thumbs.db
+
 # VS Code / Editors
 .vscode/
 .idea/
