@@ -63,5 +63,12 @@ void loop() {
   } else if (input == "Fast") {
     analogWrite(LmotorPWM, 255);
     analogWrite(RmotorPWM, 255);
+  } else if (input == "Sensor Status") {
+    Serial.print("Sensor 1: ");
+    Serial.println(digitalRead(sensor1));
+    Serial.print("Sensor 2: ");
+    Serial.println(digitalRead(sensor2));
+    Serial.print("Sensor 3: ");
+    Serial.println(digitalRead(sensor3));
   }
 }
