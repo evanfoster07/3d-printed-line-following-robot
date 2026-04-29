@@ -15,3 +15,9 @@
 - Make wire connections in schematic and re-organize pin positions for readability
 - Learned net labels greatly reduce wire clutter
 - Next: Finish soldering components onto perfboard and write control logic 
+
+## April 29, 2026
+- Finish soldering main motor driver / control logic 
+- Attach switch to control battery power delivery
+- Test hardware on perfboard with simple code 
+- Next: Finish soldering (IR sensors) and implement line-following control 

@@ -2742,7 +2742,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "177e3123-8195-4a8d-8481-b79bb923c3be")
-		(property "Reference" "C2"
+		(property "Reference" "C1"
 			(at 92.71 64.7699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2806,7 +2806,7 @@
 		(instances
 			(project "line_following_robot_schematic"
 				(path "/11185b3a-932f-4897-a286-ad6ec40470ea"
-					(reference "C2")
+					(reference "C1")
 					(unit 1)
 				)
 			)

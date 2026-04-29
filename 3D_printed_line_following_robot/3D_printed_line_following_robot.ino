@@ -32,10 +32,44 @@ void setup() {
 
   digitalWrite(LmotorPWM, LOW);
   digitalWrite(RmotorPWM, LOW);
+
+  //Start slow for test
+  analogWrite(LmotorPWM, 90);
+  analogWrite(RmotorPWM, 90);
 }
 
 void loop() {
-  while (!Serial.available()) {}
+  while (!Serial.available()) { //test logic no Serial input
+    //Go straight for 2s
+    digitalWrite(LmotorDirA, LOW);
+    digitalWrite(LmotorDirB, HIGH);
+    digitalWrite(RmotorDirA, LOW);
+    digitalWrite(RmotorDirB, HIGH);
+    delay(2000);
+
+    //stop and wait 50ms 
+    digitalWrite(LmotorDirA, LOW);
+    digitalWrite(LmotorDirB, LOW);
+    digitalWrite(RmotorDirA, LOW);
+    digitalWrite(RmotorDirB, LOW);
+    delay(50);
+
+    //Go backwards for 2s
+    digitalWrite(LmotorDirA, HIGH);
+    digitalWrite(LmotorDirB, LOW);
+    digitalWrite(RmotorDirA, HIGH);
+    digitalWrite(RmotorDirB, LOW);
+    delay(2000);
+
+    //stop and wait 50ms 
+    digitalWrite(LmotorDirA, LOW);
+    digitalWrite(LmotorDirB, LOW);
+    digitalWrite(RmotorDirA, LOW);
+    digitalWrite(RmotorDirB, LOW);
+    delay(50);
+  }
+
+  //Input logic for testing
   String input = Serial.readStringUntil('\n');
   input.trim();
 
