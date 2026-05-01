@@ -1,7 +1,7 @@
 
-const int sensor1 = 36; //SVP 
+const int sensor1 = 34; //P34
 const int sensor2 = 39; //SUN
-const int sensor3 = 34; //P34
+const int sensor3 = 36; //SVP 
 
 const int LmotorPWM = 32; //P32
 const int RmotorPWM = 33; //P33
@@ -33,70 +33,63 @@ void setup() {
   digitalWrite(LmotorPWM, LOW);
   digitalWrite(RmotorPWM, LOW);
 
-  //Start slow for test
-  analogWrite(LmotorPWM, 90);
-  analogWrite(RmotorPWM, 90);
+  setSpeed(90);
 }
 
+int lastDirection = 0;
+unsigned long searchStart = 0;
+bool isSearching = false;
+
 void loop() {
-  while (!Serial.available()) { //test logic no Serial input
-    //Go straight for 2s
-    digitalWrite(LmotorDirA, LOW);
-    digitalWrite(LmotorDirB, HIGH);
-    digitalWrite(RmotorDirA, LOW);
-    digitalWrite(RmotorDirB, HIGH);
-    delay(2000);
+  while (!Serial.available()) { //Line following test code to run without Serial input 
+    bool sensor1Stat = digitalRead(sensor1);
+    bool sensor2Stat = digitalRead(sensor2);
+    bool sensor3Stat = digitalRead(sensor3);
 
-    //stop and wait 50ms 
-    digitalWrite(LmotorDirA, LOW);
-    digitalWrite(LmotorDirB, LOW);
-    digitalWrite(RmotorDirA, LOW);
-    digitalWrite(RmotorDirB, LOW);
-    delay(50);
-
-    //Go backwards for 2s
-    digitalWrite(LmotorDirA, HIGH);
-    digitalWrite(LmotorDirB, LOW);
-    digitalWrite(RmotorDirA, HIGH);
-    digitalWrite(RmotorDirB, LOW);
-    delay(2000);
-
-    //stop and wait 50ms 
-    digitalWrite(LmotorDirA, LOW);
-    digitalWrite(LmotorDirB, LOW);
-    digitalWrite(RmotorDirA, LOW);
-    digitalWrite(RmotorDirB, LOW);
-    delay(50);
+    if (sensor2Stat) {
+      forwards();
+      lastDirection = 0;
+      isSearching = false;
+    } else if (sensor1Stat) {
+      turnLeft();
+      lastDirection = -1;
+      isSearching = false;
+    } else if (sensor3Stat) {
+      turnRight();
+      lastDirection = 1;
+      isSearching = false;
+    } else {  //Search for line for 1s if no sensors are detecting 
+      if (!isSearching) {
+        searchStart = millis();
+        isSearching = true;
+        search();
+      }
+      
+      if (millis() - searchStart < 1000) {
+        search();
+      } else {  //Stop searching after 1s 
+        stop();
+      }
+    }
   }
 
-  //Input logic for testing
+
+  //Serial Input handling logic for testing
   String input = Serial.readStringUntil('\n');
   input.trim();
 
   if (input == "Backwards") {
-    digitalWrite(LmotorDirA, HIGH);
-    digitalWrite(LmotorDirB, LOW);
-    digitalWrite(RmotorDirA, HIGH);
-    digitalWrite(RmotorDirB, LOW);
+    backwards();
   } else if (input == "Straight") {
-    digitalWrite(LmotorDirA, LOW);
-    digitalWrite(LmotorDirB, HIGH);
-    digitalWrite(RmotorDirA, LOW);
-    digitalWrite(RmotorDirB, HIGH);
+    forwards();
   } else if (input == "Stop") {
-    digitalWrite(LmotorDirA, LOW);
-    digitalWrite(LmotorDirB, LOW);
-    digitalWrite(RmotorDirA, LOW);
-    digitalWrite(RmotorDirB, LOW);
+    stop();
   } else if (input == "Slow") {
-    analogWrite(LmotorPWM, 90);
-    analogWrite(RmotorPWM, 90);
+    slow();
   } else if (input == "Medium") {
-    analogWrite(LmotorPWM, 150);
-    analogWrite(RmotorPWM, 150);
+    medium();
   } else if (input == "Fast") {
-    analogWrite(LmotorPWM, 255);
-    analogWrite(RmotorPWM, 255);
+    fast();
   } else if (input == "Sensor Status") {
     Serial.print("Sensor 1: ");
     Serial.println(digitalRead(sensor1));
@@ -104,5 +97,88 @@ void loop() {
     Serial.println(digitalRead(sensor2));
     Serial.print("Sensor 3: ");
     Serial.println(digitalRead(sensor3));
+  }
+}
+
+//Motor control functions 
+
+void forwards() {
+  digitalWrite(LmotorDirA, LOW);
+  digitalWrite(LmotorDirB, HIGH);
+  digitalWrite(RmotorDirA, LOW);
+  digitalWrite(RmotorDirB, HIGH);
+}
+
+void backwards() {
+  digitalWrite(LmotorDirA, HIGH);
+  digitalWrite(LmotorDirB, LOW);
+  digitalWrite(RmotorDirA, HIGH);
+  digitalWrite(RmotorDirB, LOW);
+}
+
+void stop() {
+  digitalWrite(LmotorDirA, LOW);
+  digitalWrite(LmotorDirB, LOW);
+  digitalWrite(RmotorDirA, LOW);
+  digitalWrite(RmotorDirB, LOW);
+}
+
+void slow() {
+  analogWrite(LmotorPWM, 90);
+  analogWrite(RmotorPWM, 90);
+}
+
+void medium() {
+  analogWrite(LmotorPWM, 150);
+  analogWrite(RmotorPWM, 150);
+}
+
+void fast() {
+  analogWrite(LmotorPWM, 255);
+  analogWrite(RmotorPWM, 255);
+}
+
+void setSpeedLeft(int pwm) {
+  analogWrite(LmotorPWM, pwm);
+}
+void setSpeedRight(int pwm) {
+  analogWrite(RmotorPWM, pwm);
+}
+
+void setSpeed(int pwm) {
+  analogWrite(LmotorPWM, pwm);
+  analogWrite(RmotorPWM, pwm);
+}
+
+void turnRight() {
+  digitalWrite(LmotorDirA, LOW);
+  digitalWrite(LmotorDirB, HIGH);
+  digitalWrite(RmotorDirA, HIGH);
+  digitalWrite(RmotorDirB, LOW);
+}
+
+void turnLeft() {
+  digitalWrite(LmotorDirA, HIGH);
+  digitalWrite(LmotorDirB, LOW);
+  digitalWrite(RmotorDirA, LOW);
+  digitalWrite(RmotorDirB, HIGH);
+}
+
+void search() {
+  if (lastDirection == -1) {
+    turnLeft();
+  }
+  if (lastDirection == 1) {
+    turnRight();
+  } else {
+    turnLeft(); //Default search
+  }
+}
+
+void speedRampUp(int max) {
+  for(int speed = 0; speed < max; speed++) {
+    analogWrite(LmotorPWM, speed);
+    analogWrite(RmotorPWM, speed);
+    delay(1);
   }
 }
