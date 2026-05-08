@@ -30,6 +30,6 @@ Thumbs.db
 *.f3z.bak
 
 # KiCAD
-*.prl
+*.kicad_prl
 .history/
 line_following_robot_schematic-backups/

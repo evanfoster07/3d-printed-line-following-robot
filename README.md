@@ -80,7 +80,7 @@ The custom mount provides stable positioning while maintaining access to sensor 
 
 ### Schematic
 
-![Electrical Schematic](docs/images/electrical-schematic.png)
+![Electrical Schematic](docs/schematics/electrical-schematic.png)
 *KiCad schematic used for circuit planning and perfboard implementation.*
 
 ## Control System
