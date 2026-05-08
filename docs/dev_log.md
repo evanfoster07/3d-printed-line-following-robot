@@ -47,3 +47,12 @@ as well as certain challenges and future improvements
 - Cleaned up control code and organized actively used / utility functions 
 - Next: add CAD, hardware, and wiring images to GitHub repository and start demonstration video 
 
+## May 4, 2026
+- Duplicated CAD models and add colour for robot assembly render 
+- Assembled coloured components in Fusion 360 
+- Next: add previously mentioned images, record demo video and begin editing
+
+## May 8, 2026
+- Added real-life images and various robot CAD render perspectives to repo
+- Recorded line-following action shots for demonstration video
+- Next: begin video scripting and editing
