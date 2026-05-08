@@ -31,3 +31,5 @@ Thumbs.db
 
 # KiCAD
 *.prl
+.history/
+line_following_robot_schematic-backups/
