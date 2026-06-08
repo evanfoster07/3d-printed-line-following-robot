@@ -6,6 +6,12 @@ This project is an autonomous line-following robot built around an ESP32, featur
 
 The goal of this project was to design, build, and validate a complete embedded system from scratch, integrating mechanical design, electronics, and control logic into a working robotic platform.
 
+## Project Video
+
+[![Watch the video](docs/images/thumbnail.png)](https://youtu.be/uBdEDjPaecE?si=iz57nBTeC71UOYvS)
+
+Watch the full project video on YouTube
+
 ## Features 
 - 3-sensor line detection system using IR reflectance sensors
 - Differential drive control using TB6612FNG motor driver
